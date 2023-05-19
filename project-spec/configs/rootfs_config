@@ -454,9 +454,9 @@ CONFIG_liblzma=y
 #
 # canutils 
 #
-# CONFIG_canutils is not set
+CONFIG_canutils=y
 # CONFIG_canutils-dbg is not set
-# CONFIG_canutils-dev is not set
+CONFIG_canutils-dev=y
 
 #
 # can-utils 
@@ -3760,8 +3760,8 @@ CONFIG_u-boot-tools=y
 #
 # packagegroup-petalinux 
 #
-# CONFIG_packagegroup-petalinux is not set
-# CONFIG_packagegroup-petalinux-dev is not set
+CONFIG_packagegroup-petalinux=y
+CONFIG_packagegroup-petalinux-dev=y
 # CONFIG_packagegroup-petalinux-dbg is not set
 
 #
