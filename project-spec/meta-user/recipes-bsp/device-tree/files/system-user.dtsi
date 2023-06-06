@@ -1,14 +1,27 @@
 /include/ "system-conf.dtsi"
 / {
+	osc: clkc {
+		compatible = "fixed-clock";
+		#clock-cells = <0>;
+		clock-frequency = <10000000>;
+	};
+};
+
+&gpio0 {
+	#interrupt-cells = <2>;
+	interrupt-controller;
 };
 
 &spi1 {
 	is-decoded-cs = <0>;
 	num-cs = <1>;
 	status = "okay";
-	can2: can@1 {
+	can2 {
 		compatible = "microchip,mcp25625";
-		spi-max-frequency = <8000000>;
+		spi-max-frequency = <10000000>;
+		clocks = <&osc>;
+		interrupt-parent = <&gpio0>;
+		interrupts = <0 0x2>;
 		reg = <0>;
 	};
 };
