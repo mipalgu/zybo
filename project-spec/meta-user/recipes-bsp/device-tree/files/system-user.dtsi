@@ -10,6 +10,7 @@
 &gpio0 {
 	#interrupt-cells = <2>;
 	interrupt-controller;
+	// #reset-cells = <1>;
 };
 
 &spi1 {
@@ -23,6 +24,8 @@
 		interrupt-parent = <&gpio0>;
 		interrupts = <0 0x2>;
 		reg = <0>;
+	        #reset-cells = <0>;
+		resets = <&gpio0 9>;
 	};
 };
 
