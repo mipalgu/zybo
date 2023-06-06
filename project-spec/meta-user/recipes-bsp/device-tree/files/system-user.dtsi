@@ -3,13 +3,13 @@
 };
 
 &spi0 {
+	is-decoded-cs = <0>;
+	num-cs = <1>;
+	status = "okay";
 	can2: can@1 {
 		compatible = "microchip,mcp25625";
 		spi-max-frequency = <8000000>;
-		reg = <1>;
-		clocks = <&clkc 25>, <&clkc 34>;
-		interrupt-parent = <&intc>;
-		interrupts = <0 26 4>;
+		reg = <0>;
 	};
 };
 
