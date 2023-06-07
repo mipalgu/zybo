@@ -7,11 +7,11 @@
 	};
 };
 
-&gpio0 {
+/*&gpio0 {
 	#interrupt-cells = <2>;
 	interrupt-controller;
 	// #reset-cells = <1>;
-};
+};*/
 
 &spi1 {
 	is-decoded-cs = <0>;
@@ -20,12 +20,13 @@
 	can2 {
 		compatible = "microchip,mcp25625";
 		spi-max-frequency = <10000000>;
+		interrupt-parent = <&intc>;
+		interrupts = <61 1>;
 		clocks = <&osc>;
-		interrupt-parent = <&gpio0>;
-		interrupts = <0 0x2>;
 		reg = <0>;
-	        #reset-cells = <0>;
-		resets = <&gpio0 9>;
+		//reset-gpios = <&gpio0 9 1>;
+	        //#reset-cells = <0>;
+		//resets = <&gpio0 9>;
 	};
 };
 
