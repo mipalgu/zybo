@@ -3,7 +3,7 @@
 	osc: clkc {
 		compatible = "fixed-clock";
 		#clock-cells = <0>;
-		clock-frequency = <10000000>;
+		clock-frequency = <20000000>;
 	};
 };
 
