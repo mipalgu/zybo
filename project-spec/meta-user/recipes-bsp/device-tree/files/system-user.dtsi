@@ -1,5 +1,11 @@
 /include/ "system-conf.dtsi"
 / {
+	/*
+	This definition refers to the resonator on Digilents PMOD SPI-CAN controller.
+	Linux does not use this clock, however the mcp251x driver needs to know it's
+	frequency to properly set the bit rate of the CAN bus. The resonator on
+	the controller is a CSTCE20M0V13L99-R0 20MHz oscillator.
+	*/
 	osc: clkc {
 		compatible = "fixed-clock";
 		#clock-cells = <0>;
@@ -14,15 +20,39 @@
 };*/
 
 &spi1 {
+	// Use simple high/low logic for chip select.
 	is-decoded-cs = <0>;
+	// Only one line on the chip select (1 slave).
 	num-cs = <1>;
+	// Turn on if off.
 	status = "okay";
+	// CAN definition on SPI Bus. Linux moves this definition to can0 irrespective of
+	// the name. Therefore PS hardware controllers for CAN are shifted up by 1. The
+	// PS CAN controller 0 is thus CAN1 in linux, the PS CAN controller 1 is thus CAN2
+	// in linux, and the SPI CAN controller is CAN0 in linux.
 	can0 {
+		// Driver to use for SPI.
 		compatible = "microchip,mcp25625";
+		// Max frequency of slave clock. This frequency is calculated
+		// depending on the SPI reference clock. A suitable frequency
+		// is chosen that does not exceed the spi-max-frequency of all
+		// slaves on the bus. The zybo SCLK frequency is 5208333 Hz
+		// (5.28 MHz) during our experimentation.
 		spi-max-frequency = <10000000>;
+		// We are using fabric interrupts for the PMOD interrupt line.
+		// This line is routed through the FPGA into the PS. We therefore
+		// use the PS interrupt controller here.
 		interrupt-parent = <&intc>;
+		// Use the first PL fabric interrupt available. 0 indicates that
+		// this is an SPI interrupt. 29 indicates the index of the IRQ
+		// interrupt - 32. The device tree parser adds 32 onto these numbers.
+		// The physical index is 61. 4 indicates that we are reading interrupts
+		// as falling edges. All PS interrupts behave like this.
 		interrupts = <0 29 4>;
+		// The clock on Digilents PMOD SPI-CAN device.
 		clocks = <&osc>;
+		// We are address 0 on the SPI bus. A cs of low will trigger
+		// transmissions with this device.
 		reg = <0>;
 		//reset-gpios = <&gpio0 9 1>;
 	        //#reset-cells = <0>;
